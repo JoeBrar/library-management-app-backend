@@ -48,3 +48,18 @@ def editMember():
     mysql.connection.commit()
     cur.close()
     return json.dumps("ok")
+
+@members.route('/deleteMember',methods=['POST'])
+def deleteMember():
+    data=json.loads(request.data)
+    memberId=int(data['memberId'])
+    
+    mysql=current_app.config['mysql']
+    cur=mysql.connection.cursor()
+    cur.execute("""
+        DELETE FROM members
+        WHERE id=%s
+    """,(memberId,))
+    mysql.connection.commit()
+    cur.close()
+    return json.dumps("ok")

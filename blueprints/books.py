@@ -117,3 +117,18 @@ def stockEdit():
     mysql.connection.commit()
     cur.close()
     return json.dumps("ok")
+
+@books.route('/deleteBook',methods=['POST'])
+def deleteBook():
+    data=json.loads(request.data)
+    bookId=int(data['bookId'])
+    
+    mysql=current_app.config['mysql']
+    cur=mysql.connection.cursor()
+    cur.execute("""
+        DELETE FROM books
+        WHERE id=%s
+    """,(bookId,))
+    mysql.connection.commit()
+    cur.close()
+    return json.dumps("ok")
